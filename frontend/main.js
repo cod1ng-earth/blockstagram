@@ -1,5 +1,4 @@
 import './css/main.scss';
-//import * as modules from './modules';
 
 const blockstack = require('blockstack');
 import md5 from 'md5'
