@@ -29,6 +29,7 @@
     "handlebars-template-loader": "^0.8.0",
     "http-server": "^0.10.0",
     "lodash": "^4.17.4",
+    "md5": "^2.2.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "yargs": "^8.0.2"
