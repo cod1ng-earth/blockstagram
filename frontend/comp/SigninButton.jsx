@@ -5,7 +5,7 @@ class SigninButton  extends React.Component {
 
   onCl (evt) {
       evt.preventDefault();
-      blockstack.redirectToSignIn();  
+      blockstack.redirectToSignIn(undefined, undefined, ['store_write', 'publish_data']);
   }
 
   render() {
