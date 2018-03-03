@@ -21,8 +21,7 @@ const extractSass = new ExtractTextPlugin({
 
 module.exports = {
     entry: {
-        'app': APP_DIR + '/index.jsx',
-        'main': APP_DIR + '/main.js'
+        'app': APP_DIR + '/index.jsx'
     },
     output: {
         path: path.resolve(__dirname, 'public'),
