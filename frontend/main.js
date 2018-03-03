@@ -30,7 +30,7 @@ $(() => {
     $('#signin-button')[0].style.display = 'none'
 
     blockstack.getFile('index.json').then((data) => {
-      if (!(data instanceof ArrayBuffer)) {
+      if (data && !(data instanceof ArrayBuffer)) {
         console.log(data)
         index = JSON.parse(data)
       }
