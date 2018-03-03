@@ -1,0 +1,51 @@
+{
+  "name": "blockstagram",
+  "version": "0.0.1",
+  "description": "this is about pictures on: the blockchain. yes.",
+  "main": "webpack.config.js",
+  "scripts": {
+    "build": "webpack --config webpack.prod.js",
+    "watch": "webpack-dev-server --config webpack.dev.js",
+    "start": "node_modules/.bin/http-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coding-berlin/blockstagram.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/coding-berlin/blockstagram/issues"
+  },
+  "homepage": "https://github.com/coding-berlin/blockstagram#readme",
+  "dependencies": {
+    "bulma": "^0.6.2",
+    "cash-dom": "^1.3.5",
+    "handlebars": "^4.0.10",
+    "handlebars-template-loader": "^0.8.0",
+    "http-server": "^0.10.0",
+    "lodash": "^4.17.4",
+    "yargs": "^8.0.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^7.1.4",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "clean-webpack-plugin": "^0.1.16",
+    "css-loader": "^0.28.7",
+    "extract-text-webpack-plugin": "^3.0.0",
+    "file-loader": "^0.11.2",
+    "fs-extra": "^4.0.1",
+    "html-webpack-plugin": "^2.30.1",
+    "node-sass": "^4.5.3",
+    "postcss-loader": "^2.0.6",
+    "precss": "^2.0.0",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.18.2",
+    "uglifyjs-webpack-plugin": "^0.4.6",
+    "webpack": "^3.5.6",
+    "webpack-dev-server": "^2.7.1",
+    "webpack-merge": "^4.1.0"
+  }
+}
