@@ -9,8 +9,8 @@ class App extends React.Component {
     return <div>
     <NavBar />
   
-    <section class="section">
-      <div class="container">
+    <section className="section">
+      <div className="container">
         <input type="file" id="file-upload" accept=".png, .jpg, .jpeg" />
         <button id="file-submit">Upload</button>
 
@@ -19,21 +19,21 @@ class App extends React.Component {
       </div>
     </section>
     
-    <section class="section timeline">
-      <div class="container">			
-        <div class="tile is-parent">
-          <div class="tile is-8">
+    <section className="section timeline">
+      <div className="container">			
+        <div className="tile is-parent">
+          <div className="tile is-8">
             <p>img</p>
           </div>
-          <div class="tile is-4">
+          <div className="tile is-4">
             <p>img</p>
           </div>
         </div>
-        <div class="tile is-parent">
-          <div class="tile is-4">
+        <div className="tile is-parent">
+          <div className="tile is-4">
             <p>img</p>
           </div>
-          <div class="tile is-8">
+          <div className="tile is-8">
             <p>img</p>
           </div>
         </div>
