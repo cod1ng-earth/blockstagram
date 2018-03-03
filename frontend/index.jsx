@@ -5,6 +5,7 @@ import {render} from 'react-dom';
 import NavBar from './comp/NavBar.jsx';
 import ResetButton from './comp/ResetButton.jsx';
 import Uploader from './comp/Uploader.jsx';
+import Subscribers from './comp/Subscribers.jsx';
 
 const blockstack = require( 'blockstack' );
 
@@ -95,6 +96,12 @@ class App extends React.Component {
         })}
       </div>
 
+    </section>
+
+    <section className="section">
+      <div className="container">
+        <Subscribers/>
+      </div>
     </section>
     
     <section className="section timeline">
