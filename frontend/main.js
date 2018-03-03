@@ -4,26 +4,30 @@ import './css/main.scss';
 const blockstack = require('blockstack');
 import md5 from 'md5'
 
+let index = {
+  images: []
+}
+
 $(() => {
-  const $container = $('.container');
   $('#signin-button').on('click', (e) => {
     e.preventDefault()
     blockstack.redirectToSignIn();
   })
 
-  if (blockstack.isSignInPending()) {
-    blockstack.handlePendingSignIn().then((data) => {
-      console.log(data)
-      setupUser()
-    })
-  }
+  handleSignIn()
 
+  // Resets index file. TODO: Images are still stored!
   $('#reset').on('click', (e) => {
     blockstack.putFile('index.json')
   })
 
-  let index = {
-    images: []
+  function handleSignIn() {
+    if (blockstack.isSignInPending()) {
+      blockstack.handlePendingSignIn().then((data) => {
+        console.log(data)
+        setupUser()
+      })
+    }
   }
 
   function setupUser() {
@@ -43,6 +47,13 @@ $(() => {
   $('#file-submit').on('click', (e) => {
     e.preventDefault()
 
+    readFile(file.files[0])
+
+    console.dir(file)
+
+  })
+
+  function readFile(file) {
     let filereader = new FileReader()
 
     filereader.onload = (event) => {
@@ -54,29 +65,28 @@ $(() => {
       $('#image')[0].insertBefore(span, null)
 
       let path = 'images/' + md5(result)
-
-      blockstack.putFile(path, result)
-        .then((e) => {
-          console.log(e)
-
-          index.images.push(path)
-
-          return blockstack.putFile('index.json', JSON.stringify(index))
-
-        })
-        .then((e) => {
-          console.log(e)
-        })
-        .catch((e) => {
-          console.error(e)
-        })
+      uploadImageAndUpdateIndex(path, result)
     }
 
-    filereader.readAsDataURL(file.files[0])
+    filereader.readAsDataURL(file)
+  }
 
+  function uploadImageAndUpdateIndex(path, result) {
+    blockstack.putFile(path, result)
+      .then((e) => {
+        console.log(e)
 
-    console.dir(file)
+        index.images.push(path)
 
-  })
+        return blockstack.putFile('index.json', JSON.stringify(index))
+
+      })
+      .then((e) => {
+        console.log(e)
+      })
+      .catch((e) => {
+        console.error(e)
+      })
+  }
 
 });
