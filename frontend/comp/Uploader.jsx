@@ -33,7 +33,7 @@ export default class Uploader  extends React.Component {
       .then((e) => {
         console.log(e)
 
-        this.props.updateIndexAndImages(path)
+        this.props.updateIndexAndImages(path, result)
       })
       .catch((e) => {
         console.error(e)
