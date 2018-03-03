@@ -12,18 +12,28 @@ import md5 from 'md5'
 
 class App extends React.Component {
 
+  constructor() {
+    super()
+    this.state = {
+      loggedIn: false
+    }
+  }
+
   componentDidMount() {
     if (blockstack.isSignInPending()) {
       blockstack.handlePendingSignIn().then((data) => {
         console.log(data)
-        setupUser()
+        this.setupUser()
+        this.setState({loggedIn: true})
       })
+    }
+    if(blockstack.isUserSignedIn()) {
+      console.log('Signed In')
+      this.setState({loggedIn: true})
     }
   }
 
   setupUser() {
-    $('#signin-button')[0].style.display = 'none'
-
     blockstack.getFile('index.json').then(data => {
       if (data && !(data instanceof ArrayBuffer)) {
         console.log(data)
@@ -34,7 +44,7 @@ class App extends React.Component {
 
   render () {
     return <div>
-    <NavBar />
+    <NavBar loggedIn={this.state.loggedIn}/>
   
     <section className="section">
       <div className="container">
