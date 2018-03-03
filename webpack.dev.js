@@ -6,8 +6,11 @@ const webpack = require('webpack');
 module.exports = merge(common, {
     devtool: 'cheap-module-eval-source-map', //inline-source-map',
     devServer: {
-        host: "0.0.0.0",
-        contentBase: './public'
+        host: "127.0.0.1",
+        contentBase: './public',
+        headers: {
+            'Access-Control-Allow-Origin': '*'
+        }
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin()
