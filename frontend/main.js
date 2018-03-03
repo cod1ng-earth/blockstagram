@@ -3,7 +3,6 @@ import './css/main.scss';
 
 import * as blockstack from 'blockstack'
 
-
 $(() => {
     const $container = $('.container');
     $('#signin-button').on('click',(evt) => {
