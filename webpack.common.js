@@ -6,6 +6,8 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
+var APP_DIR = path.resolve(__dirname, 'frontend');
+
 const provide = new webpack.ProvidePlugin({
     $: 'cash-dom',
     jQuery: 'cash-dom'
@@ -16,9 +18,14 @@ const extractSass = new ExtractTextPlugin({
 //    disable: process.env.NODE_ENV === "development"
 });
 
+
 module.exports = {
     entry: {
-        'app': './frontend/main.js'
+        'app': APP_DIR + '/index.jsx'
+    },
+    output: {
+        path: path.resolve(__dirname, 'public'),
+        filename: '[name].[hash].js',
     },
     module: {
         rules: [{
@@ -72,28 +79,34 @@ module.exports = {
                     outputPath: "fonts/",
                 },
             }]
-        }
+        }, {
+            test : /\.jsx?/,
+            include : APP_DIR,
+            use: {
+                loader: 'babel-loader',
+                options: {
+                    presets: ['react']
+                }
+            }
+        } 
+        
     ]
     },
     plugins: [
         new CleanWebpackPlugin(['public']),
         new HtmlWebpackPlugin({
             title: 'Blockstagram',
-            template: 'frontend/index.ejs'
+            template: APP_DIR + '/index.ejs'
         }),
         new CopyWebpackPlugin([
             { 
-                from: 'frontend/manifest.json',
+                from: APP_DIR + '/manifest.json',
                 to:  ''
             }
         ]),
         extractSass,
         provide
     ],
-    output: {
-        filename: '[name].[hash].js',
-        path: path.resolve(__dirname, 'public')
-    },
     node: {
         fs: "empty" // avoids error messages
     }
