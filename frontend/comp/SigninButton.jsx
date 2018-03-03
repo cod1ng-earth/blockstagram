@@ -10,7 +10,7 @@ class SigninButton  extends React.Component {
 
   render() {
     return (
-      <a onClick={this.onCl} className="button is-primary">sign in</a>
+      <a onClick={this.onCl} className="button is-primary navbar-item">sign in</a>
     );
   }
 }

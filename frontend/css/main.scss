@@ -1,18 +1,25 @@
 @import "~bulma/bulma.sass";
 
-#bsgicon {
-	height: 64px;
-	width: 64px;
-	margin: 1vw;
+$primary-color: #1EB31E;
+
+.navbar .bsgicon {
+	height: 28px;
+	width: 28px;
+	margin-right: 1vw;
+	float: left;
+}
+
+.bsgicon svg path {
+fill: #1EB31E;
 }
 
 .navbar .button {
 	margin: 1vw;
-	background: #1EB31E;
+	background: $primary-color;
 }
 
 .timeline .tile {
-	border: 1px solid #1EB31E;
+	border: 1px solid $primary-color;
 	
 }
 
