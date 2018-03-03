@@ -1,5 +1,5 @@
 {
-    "name": "Hello, Blockstack",
+    "name": "Blockstagram",
     "start_url": "127.0.0.1:8888",
     "description": "A simple demo of Blockstack Auth",
     "icons": [{
