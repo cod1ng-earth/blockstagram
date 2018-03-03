@@ -29,13 +29,13 @@ class App extends React.Component {
       blockstack.handlePendingSignIn().then((data) => {
         console.log(data)
         this.setupUser()
+        this.setupKey()
         this.setState({loggedIn: true})
       })
     }
     if(blockstack.isUserSignedIn()) {
       console.log('Signed In')
       this.setupUser()
-      this.setupKey()
       this.setState({loggedIn: true})
     }
   }
