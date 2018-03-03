@@ -9,6 +9,8 @@ import Uploader from './comp/Uploader.jsx';
 import Subscribers from './comp/Subscribers.jsx';
 
 const blockstack = require( 'blockstack' );
+const { getPublicKeyFromPrivate } = require('blockstack');
+
 class App extends React.Component {
 
   constructor() {
@@ -33,6 +35,7 @@ class App extends React.Component {
     if(blockstack.isUserSignedIn()) {
       console.log('Signed In')
       this.setupUser()
+      this.setupKey()
       this.setState({loggedIn: true})
     }
   }
@@ -60,6 +63,18 @@ class App extends React.Component {
       .catch((e) => {
         console.error(e)
       })
+  }
+
+  setupKey() {
+      const publicKey = getPublicKeyFromPrivate(blockstack.loadUserData().appPrivateKey)
+      blockstack.putFile('key.json', JSON.stringify(publicKey))
+          .then(() => {
+              console.log("public key saved");
+              console.log(JSON.stringify(publicKey))
+          })
+          .catch(e => {
+              console.log(e);
+          });
   }
 
   fetchFile(path) {
