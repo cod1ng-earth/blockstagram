@@ -7,16 +7,16 @@ export default class Subscriber  extends React.Component {
     constructor(props) {
         super(props);
 
-        blockstack.getFile('subscriber.json')
-            .then((data) => {
-                this.state = {
-                    subscribers: Array.from(JSON.parse(data))
-                }
-            })
-            .catch(() => {
-                this.state = {
+        this.state = {
                     subscribers: []
                 }
+    }
+
+    componentWillMount() {
+
+        blockstack.getFile('subscriber.json')
+            .then((data) => {
+                this.setState({subscribers: Array.from(JSON.parse(data))})
             })
     }
 
@@ -28,7 +28,7 @@ export default class Subscriber  extends React.Component {
         let subscribers = this.state.subscribers
         subscribers.push(input)
 
-        blockstack.putFile('subscriber.json', JSON.stringify(tempState))
+        blockstack.putFile('subscriber.json', JSON.stringify(subscribers))
             .then(() => {
                 this.setState({subscribers})
             })
@@ -37,8 +37,17 @@ export default class Subscriber  extends React.Component {
     }
 
     render() {
+        var userNames = this.state.subscribers.map(function (userName) {
+            return (
+                <li>{userName}</li>
+            );
+        });
+
         return (
             <div>
+                <ul>
+                    {userNames}
+                </ul>
                 <input name="username" ref={element => this.input = element}/>
                 <button onClick={this.addSubscriber.bind(this)}>Add</button>
             </div>
