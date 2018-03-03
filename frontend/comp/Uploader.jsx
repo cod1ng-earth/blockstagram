@@ -1,32 +1,18 @@
 import React from 'react';
 import * as blockstack from 'blockstack'
+import md5 from 'md5'
 
 export default class Uploader  extends React.Component {
 
   upload (evt) {
-      evt.preventDefault();
-    let file = $('#file-upload')[0]
-    this.readFile(file.files[0])
+    evt.preventDefault();
+
+    let input = this.input
+    let file = input.files[0]
+
+    this.readFile(file)
     
-    console.dir(file)
-  }
-
-  uploadImageAndUpdateIndex(path, result) {
-    blockstack.putFile(path, result)
-      .then((e) => {
-        console.log(e)
-
-        index.images.push(path)
-
-        return blockstack.putFile('index.json', JSON.stringify(index))
-
-      })
-      .then((e) => {
-        console.log(e)
-      })
-      .catch((e) => {
-        console.error(e)
-      })
+    console.dir(input)
   }
 
   readFile(file) {
@@ -35,23 +21,30 @@ export default class Uploader  extends React.Component {
     filereader.onload = (event) => {
       let result = event.target.result
 
-      let span = document.createElement('span')
-      span.innerHTML = `<img src="${result}">`
-
-      $('#image')[0].insertBefore(span, null)
-
       let path = 'images/' + md5(result)
-      uploadImageAndUpdateIndex(path, result)
+      this.uploadImageAndUpdateIndex(path, result)
     }
 
     filereader.readAsDataURL(file)
   }
 
+  uploadImageAndUpdateIndex(path, result) {
+    blockstack.putFile(path, result)
+      .then((e) => {
+        console.log(e)
+
+        this.props.updateIndexAndImages(path)
+      })
+      .catch((e) => {
+        console.error(e)
+      })
+  }
+
   render() {
     return (
         <div>
-            <input type="file" id="file-upload" accept=".png, .jpg, .jpeg" />
-            <button onClick={this.upload} id="file-submit">Upload</button>
+            <input type="file" accept=".png, .jpg, .jpeg" ref={element => this.input = element}/>
+            <button onClick={this.upload.bind(this)}>Upload</button>
         </div>
     );
   }

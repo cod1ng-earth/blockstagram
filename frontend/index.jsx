@@ -8,40 +8,96 @@ import Uploader from './comp/Uploader.jsx';
 
 const blockstack = require( 'blockstack' );
 
-import md5 from 'md5'
-
 class App extends React.Component {
+
+  constructor() {
+    super()
+    this.state = {
+      loggedIn: false,
+      index: {
+        imagePaths: []
+      },
+      images: []
+    }
+  }
 
   componentDidMount() {
     if (blockstack.isSignInPending()) {
       blockstack.handlePendingSignIn().then((data) => {
         console.log(data)
-        setupUser()
+        this.setupUser()
+        this.setState({loggedIn: true})
       })
+    }
+    if(blockstack.isUserSignedIn()) {
+      console.log('Signed In')
+      this.setupUser()
+      this.setState({loggedIn: true})
     }
   }
 
   setupUser() {
-    $('#signin-button')[0].style.display = 'none'
-
     blockstack.getFile('index.json').then(data => {
       if (data && !(data instanceof ArrayBuffer)) {
         console.log(data)
-        index = JSON.parse(data)
+        let index = JSON.parse(data)
+        if (!index.imagePaths) {
+          index.imagePaths = []
+        }
+        this.setState({ index: index })
       }
     })
+      .then(() => {
+        let promises = this.state.index.imagePaths.map((path) => {
+          return this.fetchFile(path)
+        })
+        return Promise.all(promises)
+      })
+      .then((images) => {
+        this.setState({ images: images})
+      })
+      .catch((e) => {
+        console.error(e)
+      })
+  }
+
+  fetchFile(path) {
+    return blockstack.getFile(path)
+  }
+
+  updateIndexAndImages(path, image) {
+    let index = this.state.index
+    index.imagePaths.push(path)
+
+    let images = this.state.images
+    images.push(image)
+
+    blockstack.putFile('index.json', JSON.stringify(index))
+      .then(() => {
+        console.log('Index.json uploaded')
+        this.setState({ index, images })
+      })
+      .catch((e) => {
+        console.error(e)
+      })
   }
 
   render () {
     return <div>
-    <NavBar />
+    <NavBar loggedIn={this.state.loggedIn}/>
   
     <section className="section">
       <div className="container">
-        <Uploader />
-        <div id="image"></div>
+        <Uploader updateIndexAndImages={this.updateIndexAndImages.bind(this)}/>
         <ResetButton />
       </div>
+
+      <div className="images">
+        { this.state.images.map((image, index) => {
+          return (<img key={index} src={image} /> )
+        })}
+      </div>
+
     </section>
     
     <section className="section timeline">
