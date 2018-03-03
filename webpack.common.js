@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const provide = new webpack.ProvidePlugin({
     $: 'cash-dom',
@@ -80,6 +81,12 @@ module.exports = {
             title: 'Blockstagram',
             template: 'frontend/index.ejs'
         }),
+        new CopyWebpackPlugin([
+            { 
+                from: 'frontend/manifest.json',
+                to:  ''
+            }
+        ]),
         extractSass,
         provide
     ],
