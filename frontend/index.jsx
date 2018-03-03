@@ -8,15 +8,14 @@ class App extends React.Component {
   render () {
     return <div>
     <NavBar />
+  
     <section class="section">
       <div class="container">
-        <h1 class="title">
-          Hello World
-        </h1>
-        <p class="subtitle">
-          My first website with <strong>Bulma</strong>!
-         
-        </p>
+        <input type="file" id="file-upload" accept=".png, .jpg, .jpeg" />
+        <button id="file-submit">Upload</button>
+
+          <div id="image"></div>
+          <button id="reset">Reset</button>
       </div>
     </section>
     
