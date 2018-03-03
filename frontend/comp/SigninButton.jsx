@@ -3,14 +3,14 @@ import * as blockstack from 'blockstack'
 
 class SigninButton  extends React.Component {
 
-  onCl (evt) {
+  onClick (evt) {
       evt.preventDefault();
       blockstack.redirectToSignIn();  
   }
 
   render() {
     return (
-      <a onClick={this.onCl} className="button is-primary navbar-item">sign in</a>
+      <a onClick={this.onClick} className="button is-primary">Sign in</a>
     );
   }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import * as blockstack from 'blockstack'
 
-class SignoutButton  extends React.Component {
+export default class SignoutButton  extends React.Component {
 
   onCl (evt) {
       evt.preventDefault();
@@ -9,13 +9,11 @@ class SignoutButton  extends React.Component {
   }
 
   render() {
-    const username = blockstack.loadUserData().username;
-    return (<div>
-      <span>Welcome {username}</span>
-      <a onClick={this.onCl} id="signout-button" className="button is-primary">sign out</a>
-    </div>
+    
+    return (
+      <a onClick={this.onCl} className="button is-primary">
+        Sign out &nbsp; <strong>{ this.props.userData.username }</strong>
+      </a>
     );
   }
 }
-
-export default SignoutButton;

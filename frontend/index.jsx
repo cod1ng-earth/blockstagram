@@ -7,6 +7,7 @@ import ImageCollection from './comp/ImageCollection.jsx';
 import ResetButton from './comp/ResetButton.jsx';
 import Uploader from './comp/Uploader.jsx';
 import Subscribers from './comp/Subscribers.jsx';
+import OneImage from './comp/OneImage.jsx';
 
 const blockstack = require( 'blockstack' );
 const { getPublicKeyFromPrivate } = require('blockstack');
@@ -16,6 +17,9 @@ class App extends React.Component {
   constructor() {
     super()
     this.state = {
+      userData: {
+        
+      },
       loggedIn: false,
       index: {
         imagePaths: []
@@ -27,20 +31,25 @@ class App extends React.Component {
   componentDidMount() {
     if (blockstack.isSignInPending()) {
       blockstack.handlePendingSignIn().then((data) => {
-        console.log(data)
+        console.dir(data)
         this.setupUser()
         this.setupKey()
-        this.setState({loggedIn: true})
+        
       })
     }
     if(blockstack.isUserSignedIn()) {
       console.log('Signed In')
       this.setupUser()
-      this.setState({loggedIn: true})
     }
   }
 
   setupUser() {
+    const userData = blockstack.loadUserData();
+    this.setState({
+      userData: userData,
+      loggedIn: true
+    });
+
     blockstack.getFile('index.json').then(data => {
       if (data && !(data instanceof ArrayBuffer)) {
         console.log(data)
@@ -98,20 +107,13 @@ class App extends React.Component {
   render () {
     return <div>
     
-    <NavBar loggedIn={this.state.loggedIn}/>
+    <NavBar userData={this.state.userData}/>
   
     <section className="section">
       <div className="container">
         <Uploader updateIndexAndImages={this.updateIndexAndImages.bind(this)}/>
         <ResetButton />
       </div>
-
-      <div className="images">
-        { this.state.images.map((image, index) => {
-          return (<img key={index} src={image} /> )
-        })}
-      </div>
-
     </section>
 
     <section className="section">
@@ -120,31 +122,14 @@ class App extends React.Component {
       </div>
     </section>
     
-    <section className="section timeline">
-      <div className="container">			
-        <div className="tile is-parent">
-
-		  <ImageCollection />
-		
-        <div className="tile is-8">
-            <p><img src={require("./img/benjamin-voros-365387-unsplash.jpg")} /></p>
-          <div className="tile is-8">
-            <p>img</p>
-          </div>
-          <div className="tile is-4">
-            <p>img</p>
-          </div>
+    <section className="section">
+      <div className="container">
+        <div className="columns imagewall">
+        { this.state.images.map((image, index) => {
+          return (<OneImage key={index} img={image} />);
+        })} 
         </div>
-
-        <div className="tile is-parent">
-          <div className="tile is-4">
-            <p>img</p>
-          </div>
-          <div className="tile is-8">
-            <p>img</p>
-          </div>
-        </div>
-        </div>
+        
       </div>
     </section>
 
