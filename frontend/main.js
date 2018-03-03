@@ -1,12 +1,13 @@
 import './css/main.scss';
 //import * as modules from './modules';
 
-const blockstack = require ('blockstack');
+import * as blockstack from 'blockstack'
+
 
 $(() => {
     const $container = $('.container');
-    $('#signin-button').on('click',() => {
-        blockstack.redirectToSignIn();
-        return false;
+    $('#signin-button').on('click',(evt) => {
+        evt.preventDefault();
+        blockstack.redirectToSignIn();        
       })
 });
