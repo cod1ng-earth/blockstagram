@@ -1,7 +1,13 @@
-### Blockstagram
+# Blockstagram
+this is about pictures on: the blockchain. yes.
 
-this is about pictures on: the blockchain.
+## Idea
 
-yes.
+- use your own blockstack id to manage your own (singular) image uploads
+- share your whole "timeline" only with authorized people
+- "authorization" is done using "blockstack ids"
+
+
+## Questions
 
 
