@@ -24,7 +24,7 @@ export default class Subscriber  extends React.Component {
                 <ul>
                     {userNames}
                 </ul>
-				<div class="container">
+				<div className="container">
 				<h3>Remove all friends</h3> 
                 <a className="button is-danger" onClick={this.props.removeAllSubscribers.bind(this)}>x</a>
 				</div>

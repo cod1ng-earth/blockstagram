@@ -146,7 +146,6 @@ class App extends React.Component {
     this.setState({imageFeed: newImageFeed});
   }
 
-<<<<<<< HEAD
   toggleTab() {
     if (this.state.tab === 'my') {
       this.setState({ tab: 'friends' })
@@ -155,7 +154,6 @@ class App extends React.Component {
       this.setState({ tab: 'my' })
     }
   }
-=======
 
     setupSubscriber() {
       if(this.state.loggedIn) {
@@ -217,57 +215,36 @@ class App extends React.Component {
             .then(() => 'submitted subscribers.json')
             .catch(e => console.dir(e))
     }
->>>>>>> origin
 
   render () {
     return <div>
 
     <NavBar userData={this.state.userData}/>
 
-<<<<<<< HEAD
-<section className="section">
-=======
     <section className="section">
-      <div className="container">
-        <Uploader updateIndexAndImages={this.updateIndexAndImages.bind(this)}/>
-        <ResetButton />
-      </div>
-    </section>
 
-    <section className="section">
-      <div className="container">
-          { this.state.loggedIn ? <Subscribers
-              addSubscriber={this.addSubscriber.bind(this)}
-              removeAllSubscribers={this.removeAllSubscribers.bind(this)}
-              subscribers={this.state.subscribers}
-              updateFeed={this.updateFeed.bind(this)}/> : '' }
-      </div>
-    </section>
-
-    <section className="section">
->>>>>>> origin
       <div className="container is-desktop">
         <div className="columns blockstagram-columns">
 
 		  <div className="column is-two-thirds">
 
 		  
-<div className="tabs is-boxed">
-  <ul>
-    <li className={ this.state.tab === 'my' ? "is-active" : ''}>
-      <a onClick={this.toggleTab.bind(this)}>
-        <span className="icon is-small"><i className="fas fa-image"></i></span>
-        <span>My Pictures</span>
-      </a>
-    </li>
-	<li className={ this.state.tab === 'friends' ? "is-active" : ''}>
-      <a onClick={this.toggleTab.bind(this)}>
-        <span className="icon is-small"><i className="fas fa-image"></i></span>
-        <span>Friends Pictures</span>
-      </a>
-    </li>
-	</ul>
-</div>
+      <div className="tabs is-boxed">
+        <ul>
+          <li className={ this.state.tab === 'my' ? "is-active" : ''}>
+            <a onClick={this.toggleTab.bind(this)}>
+              <span className="icon is-small"><i className="fas fa-image"></i></span>
+              <span>My Pictures</span>
+            </a>
+          </li>
+        <li className={ this.state.tab === 'friends' ? "is-active" : ''}>
+            <a onClick={this.toggleTab.bind(this)}>
+              <span className="icon is-small"><i className="fas fa-image"></i></span>
+              <span>Friends Pictures</span>
+            </a>
+          </li>
+        </ul>
+      </div>
         { this.state.tab === 'my' ?
           <div className="container">
             <ImageWall images={this.state.images} />
@@ -279,7 +256,6 @@ class App extends React.Component {
 	</div>
 
           <div className="column">
-<<<<<<< HEAD
 				<div className="container">
 					<Uploader updateIndexAndImages={this.updateIndexAndImages.bind(this)}/>
 				</div>
@@ -289,13 +265,14 @@ class App extends React.Component {
 				</div>
 		      
 			  <div className="container">
-          { this.state.loggedIn ? <Subscribers updateFeed={this.updateFeed.bind(this)}/> : '' }
+          { this.state.loggedIn ? <Subscribers
+            addSubscriber={this.addSubscriber.bind(this)}
+            removeAllSubscribers={this.removeAllSubscribers.bind(this)}
+            subscribers={this.state.subscribers}
+            updateFeed={this.updateFeed.bind(this)}/> : '' }
 			  </div>
 	  
 	              Made with 💙 and 🍕 in Berlin. 
-=======
-            Made with 💙 and 🍕 in Berlin.
->>>>>>> origin
             Thanks to <a href="https://blockstack.org/">blockstack</a>!
           </div>
 		  
