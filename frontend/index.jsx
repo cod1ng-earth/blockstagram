@@ -1,4 +1,5 @@
 import './css/main.scss';
+import moment from 'moment';
 import React from 'react';
 import {render} from 'react-dom';
 import NavBar from './comp/NavBar.jsx';
@@ -19,10 +20,14 @@ class App extends React.Component {
       userData: null,
       loggedIn: false,
       index: {
-        imagePaths: []
+        images: []
       },
+
+      // Just the images
       images: [],
       image: [],
+
+      // { username, path, image }
       imageFeed: [],
       subscribers: [],
     }
@@ -41,6 +46,10 @@ class App extends React.Component {
     }
   }
 
+  lookForNewImages() {
+  }
+
+
   setupUser() {
     const userData = blockstack.loadUserData();
     this.setState({
@@ -51,13 +60,13 @@ class App extends React.Component {
     blockstack.getFile('index.json').then(data => {
       if (data && !(data instanceof ArrayBuffer)) {
         console.log(data)
-        let indexJson = JSON.parse(data) || [];
+        let indexJson = JSON.parse(data) || {'images':[]};
         this.setState({index: indexJson});
       }
     })
       .then(() => {
-        let promises = this.state.index.imagePaths.map((path) => {
-          return this.fetchFile(path)
+        let promises = this.state.index.images.map((image) => {
+          return this.fetchFile(image.path)
         })
         return Promise.all(promises)
       })
@@ -87,7 +96,8 @@ class App extends React.Component {
 
   updateIndexAndImages(path, image) {
     let index = this.state.index
-    index['imagePaths'] = [...index.imagePaths, path]
+    const created = moment().toISOString();
+    index['images'] = [...index.images, {path, created}]
     let images = [...this.state.images, image]
 
     blockstack.putFile('index.json', JSON.stringify(index))
@@ -109,9 +119,9 @@ class App extends React.Component {
 
   render () {
     return <div>
-    
+
     <NavBar userData={this.state.userData}/>
-  
+
     <section className="section">
       <div className="container">
         <Uploader updateIndexAndImages={this.updateIndexAndImages.bind(this)}/>
@@ -124,16 +134,16 @@ class App extends React.Component {
           { this.state.loggedIn ? <Subscribers updateFeed={this.updateFeed.bind(this)}/> : '' }
       </div>
     </section>
-    
+
     <section className="section">
       <div className="container is-desktop">
         <div className="columns">
           <div className="column is-two-thirds">
             <ImageWall images={this.state.images} />
-            <ImageWall images={this.state.imageFeed} />
+            <ImageWall images={this.state.imageFeed.map(imageData => imageData.image)} />
           </div>
           <div className="column">
-            Made with 💙 and 🍕 in Berlin. 
+            Made with 💙 and 🍕 in Bern
             Thanks to <a href="https://blockstack.org/">blockstack</a>!
           </div>
         </div>
