@@ -45,7 +45,7 @@ export default class Subscriber  extends React.Component {
             username: newSubscriber
         }).then(keyData => {
             let subscribers = this.state.subscribers;
-            subscribers.push(newSubscriber);
+            subscribers.push({username: newSubscriber, publicKey: JSON.parse(keyData)});
             this.setState({subscribers})
             this.persistSubscribers();
         })
@@ -61,9 +61,9 @@ export default class Subscriber  extends React.Component {
     }
 
     render() {
-        var userNames = this.state.subscribers.map((username) => {
+        var userNames = this.state.subscribers.map((subscriber) => {
             return (
-                <li key={username}>{username}</li>
+                <li key={subscriber.username}>{subscriber.username}</li>
             );
         });
 
