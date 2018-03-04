@@ -9,8 +9,8 @@ export default class NavBar extends React.Component {
         <nav className="navbar is-white is-fixed-top" role="navigation" aria-label="main navigation">
             <div className="navbar-brand is-pulled-left">
                 <a className="navbar-item">
-                    <img src="img/blockstagram.png" className="is-hidden-touch"/>
-                    <img src="img/blockstagram_mobile.png" className="is-hidden-desktop"/>
+                    <img src="img/blockstagram.png" className="is-hidden-mobile"/>
+                    <img src="img/blockstagram_mobile.png" className="is-hidden-tablet"/>
                 </a>
             </div>
         
