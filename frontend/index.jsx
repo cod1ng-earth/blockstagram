@@ -32,7 +32,8 @@ class App extends React.Component {
       // { username, path, image }
       imageFeed: [],
       subscribers: [],
-  aesKey: null
+      aesKey: null,
+      tab: 'my'
     }
   }
 
@@ -143,6 +144,15 @@ class App extends React.Component {
     this.setState({imageFeed: newImageFeed});
   }
 
+  toggleTab() {
+    if (this.state.tab === 'my') {
+      this.setState({ tab: 'friends' })
+    }
+    else {
+      this.setState({ tab: 'my' })
+    }
+  }
+
   render () {
     return <div>
 
@@ -155,30 +165,30 @@ class App extends React.Component {
 		  <div className="column is-two-thirds">
 
 		  
-<div class="tabs is-boxed">
+<div className="tabs is-boxed">
   <ul>
-    <li class="is-active">
-      <a>
-        <span class="icon is-small"><i class="fas fa-image"></i></span>
+    <li className={ this.state.tab === 'my' ? "is-active" : ''}>
+      <a onClick={this.toggleTab.bind(this)}>
+        <span className="icon is-small"><i className="fas fa-image"></i></span>
         <span>My Pictures</span>
       </a>
     </li>
-	<li>
-      <a>
-        <span class="icon is-small"><i class="fas fa-image"></i></span>
+	<li className={ this.state.tab === 'friends' ? "is-active" : ''}>
+      <a onClick={this.toggleTab.bind(this)}>
+        <span className="icon is-small"><i className="fas fa-image"></i></span>
         <span>Friends Pictures</span>
       </a>
     </li>
 	</ul>
 </div>
-
-<div class="container">
-        <ImageWall images={this.state.images} />
-    </div>
-	<div class="container">
-		<ImageWall images={this.state.imageFeed.map(imageData => imageData.image)} />
-	</div>		
-
+        { this.state.tab === 'my' ?
+          <div className="container">
+            <ImageWall images={this.state.images} />
+          </div> :
+          <div className="container">
+            <ImageWall images={this.state.imageFeed.map(imageData => imageData.image)} />
+          </div>
+        }
 	</div>
 
           <div className="column">
