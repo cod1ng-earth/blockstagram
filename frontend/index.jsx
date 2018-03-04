@@ -51,10 +51,7 @@ class App extends React.Component {
       if (data && !(data instanceof ArrayBuffer)) {
         console.log(data)
         let indexJson = JSON.parse(data) || [];
-        this.setState({index: {
-            imagePaths: indexJson 
-          } 
-        });
+        this.setState({index: indexJson});
       }
     })
       .then(() => {
