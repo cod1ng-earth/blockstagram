@@ -127,7 +127,7 @@ class App extends React.Component {
       <div className="container is-desktop">
         <div className="columns">
           <div className="column is-two-thirds">
-            <ImageWall images={this.state.images} />        
+            <ImageWall images={this.state.images} />     
             <ImageWall images={this.state.imageFeed} />
           </div>
           <div className="column">
