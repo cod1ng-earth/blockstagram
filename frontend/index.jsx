@@ -1,5 +1,4 @@
 import './css/main.scss';
-import './font/fontello.eot';
 import React from 'react';
 import {render} from 'react-dom';
 import NavBar from './comp/NavBar.jsx';
@@ -17,9 +16,7 @@ class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      userData: {
-        
-      },
+      userData: null,
       loggedIn: false,
       index: {
         imagePaths: []
@@ -36,8 +33,7 @@ class App extends React.Component {
         this.setupKey()
         
       })
-    }
-    if(blockstack.isUserSignedIn()) {
+    } else if (blockstack.isUserSignedIn()) {
       console.log('Signed In')
       this.setupUser()
     }
