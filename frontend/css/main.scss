@@ -18,3 +18,14 @@ nav.navbar {
     margin-bottom: $size-3;
   }
 }
+
+.container {
+	margin-bottom: 1rem;
+}
+
+@media(max-width: 767px) {
+  .blockstagram-columns {
+    flex-direction: column-reverse;
+    display: flex;
+  }
+}

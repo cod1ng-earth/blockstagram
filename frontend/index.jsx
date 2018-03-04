@@ -143,30 +143,33 @@ class App extends React.Component {
     
     <NavBar userData={this.state.userData}/>
   
-    <section className="section">
-      <div className="container">
-        <Uploader updateIndexAndImages={this.updateIndexAndImages.bind(this)}/>
-        <ResetButton />
-      </div>
-    </section>
-
-    <section className="section">
-      <div className="container">
-          { this.state.loggedIn ? <Subscribers updateFeed={this.updateFeed.bind(this)}/> : '' }
-      </div>
-    </section>
-    
-    <section className="section">
+<section className="section">
       <div className="container is-desktop">
-        <div className="columns">
-          <div className="column is-two-thirds">
-            <ImageWall images={this.state.images} />
-            <ImageWall images={this.state.imageFeed} />
+        <div className="columns blockstagram-columns">
+
+		  <div className="column is-two-thirds">
+            <ImageWall images={this.state.images} />        
           </div>
+
           <div className="column">
-            Made with 💙 and 🍕 in Berlin. 
+				<div className="container">
+					<Uploader updateIndexAndImages={this.updateIndexAndImages.bind(this)}/>
+				</div>
+				<div className="container">				
+					<h3>Start again with a fresh wall</h3>
+					<ResetButton />
+				</div>
+		      
+			  <div className="container">
+				  { this.state.loggedIn ? <Subscribers/> : '' }
+			  </div>
+	  
+	              Made with 💙 and 🍕 in Berlin. 
             Thanks to <a href="https://blockstack.org/">blockstack</a>!
           </div>
+		  
+
+		  
         </div>
       </div>
     </section>
