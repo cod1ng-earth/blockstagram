@@ -32,6 +32,7 @@
     "md5": "^2.2.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "simple-crypto-js": "^1.1.1",
     "yargs": "^8.0.2"
   },
   "devDependencies": {

@@ -6,9 +6,11 @@ import ResetButton from './comp/ResetButton.jsx';
 import Uploader from './comp/Uploader.jsx';
 import Subscribers from './comp/Subscribers.jsx';
 import {ImageWall} from './comp/ImageWall.jsx';
+import SimpleCryptoJS from 'simple-crypto-js'
 
 const blockstack = require( 'blockstack' );
 const { getPublicKeyFromPrivate } = require('blockstack');
+const { encryptECIES, decryptECIES } = require('blockstack/lib/encryption')
 
 window.blockstack = blockstack;
 class App extends React.Component {
@@ -25,6 +27,7 @@ class App extends React.Component {
       image: [],
       imageFeed: [],
       subscribers: [],
+  aesKey: null
     }
   }
 
@@ -37,7 +40,9 @@ class App extends React.Component {
       })
     } else if (blockstack.isUserSignedIn()) {
       console.log('Signed In')
-      this.setupUser()
+      this.setupUser().then(() => {
+        this.loadAESKey()
+      })
     }
   }
 
@@ -48,7 +53,7 @@ class App extends React.Component {
       loggedIn: true
     });
 
-    blockstack.getFile('index.json').then(data => {
+    return blockstack.getFile('index.json').then(data => {
       if (data && !(data instanceof ArrayBuffer)) {
         console.log(data)
         let indexJson = JSON.parse(data) || [];
@@ -62,24 +67,50 @@ class App extends React.Component {
         return Promise.all(promises)
       })
       .then((images) => {
-        this.setState({ images: images})
+        this.setState({ images: images })
       })
       .catch((e) => {
         console.error(e)
       })
   }
 
+  loadAESKey() {
+    blockstack.getFile(`keys/${this.state.userData.username}`)
+      .then((data) => {
+        let encryptedKey = JSON.parse(data)
+        let decryptedKey = decryptECIES(blockstack.loadUserData().appPrivateKey, encryptedKey)
+        this.setState({aesKey: decryptedKey})
+      })
+  }
+
   setupKey() {
+    let aesKey = SimpleCryptoJS.generateRandom()
+
       const publicKey = getPublicKeyFromPrivate(blockstack.loadUserData().appPrivateKey)
-      blockstack.putFile('key.json', JSON.stringify(publicKey))
+      return blockstack.putFile('key.json', JSON.stringify(publicKey))
           .then(() => {
               console.log("public key saved");
               console.log(JSON.stringify(publicKey))
           })
+        .then(() => {
+            let encryptedAesKey = encryptECIES(publicKey, aesKey)
+            let username = this.state.userData.username
+            return blockstack.putFile(`keys/${username}`, JSON.stringify(encryptedAesKey))
+          })
+        .then(() => {
+          this.setState({ aesKey })
+        })
           .catch(e => {
               console.log(e);
           });
+
   }
+
+  generateKey(p){
+    var salt = CryptoJS.lib.WordArray.random(128/8);
+    return CryptoJS.PBKDF2(p, salt, { keySize: 512/32, iterations: 1000 });
+  }
+
 
   fetchFile(path) {
     return blockstack.getFile(path)
