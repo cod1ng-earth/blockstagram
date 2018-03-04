@@ -43,6 +43,7 @@ class App extends React.Component {
         this.setupUser()
         this.setupKey()
         this.setupSubscriber()
+        window.history.pushState(null, null, '/')
       })
     } else if (blockstack.isUserSignedIn()) {
       console.log('Signed In')
@@ -115,12 +116,6 @@ class App extends React.Component {
           });
 
   }
-
-  generateKey(p){
-    var salt = CryptoJS.lib.WordArray.random(128/8);
-    return CryptoJS.PBKDF2(p, salt, { keySize: 512/32, iterations: 1000 });
-  }
-
 
   fetchFile(path) {
     return blockstack.getFile(path)
