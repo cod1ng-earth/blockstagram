@@ -49,11 +49,11 @@ class App extends React.Component {
     blockstack.getFile('index.json').then(data => {
       if (data && !(data instanceof ArrayBuffer)) {
         console.log(data)
-        let index = JSON.parse(data)
-        if (!index.imagePaths) {
-          index.imagePaths = []
-        }
-        this.setState({ index: index })
+        let indexJson = JSON.parse(data) || [];
+        this.setState({index: {
+            imagePaths: indexJson 
+          } 
+        });
       }
     })
       .then(() => {

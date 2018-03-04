@@ -13,7 +13,11 @@ export default class Subscriber  extends React.Component {
     componentWillMount() {
         blockstack.getFile('subscriber.json')
             .then((data) => {
-                this.setState({subscribers: Array.from(JSON.parse(data))})
+                if (data) {
+                    this.setState({subscribers: Array.from(JSON.parse(data))})
+                }
+            }).catch(err => {
+                console.warn("ohoh");
             })
     }
 
