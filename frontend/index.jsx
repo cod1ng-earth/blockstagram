@@ -88,7 +88,8 @@ class App extends React.Component {
   }
 
   updateIndexAndImages(path, image) {
-    let index = [...this.state.index.imagePaths, path]
+    let index = this.state.index
+    index['imagePaths'] = [...index.imagePaths, path]
     let images = [...this.state.images, image]
 
     blockstack.putFile('index.json', JSON.stringify(index))
