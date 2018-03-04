@@ -30,9 +30,8 @@ export default class Uploader  extends React.Component {
 
   uploadImageAndUpdateIndex(path, result) {
     blockstack.putFile(path, result)
-      .then((e) => {
-        console.log(e)
-
+      .then(fileUrl => {
+        console.log(fileUrl);
         this.props.updateIndexAndImages(path, result)
       })
       .catch((e) => {
