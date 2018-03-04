@@ -2,11 +2,10 @@ import './css/main.scss';
 import React from 'react';
 import {render} from 'react-dom';
 import NavBar from './comp/NavBar.jsx';
-import ImageCollection from './comp/ImageCollection.jsx';
 import ResetButton from './comp/ResetButton.jsx';
 import Uploader from './comp/Uploader.jsx';
 import Subscribers from './comp/Subscribers.jsx';
-import OneImage from './comp/OneImage.jsx';
+import {ImageWall} from './comp/ImageWall.jsx';
 
 const blockstack = require( 'blockstack' );
 const { getPublicKeyFromPrivate } = require('blockstack');
@@ -120,12 +119,7 @@ class App extends React.Component {
     
     <section className="section">
       <div className="container">
-        <div className="columns imagewall">
-        { this.state.images.map((image, index) => {
-          return (<OneImage key={index} img={image} />);
-        })} 
-        </div>
-        
+        <ImageWall images={this.state.images} />        
       </div>
     </section>
 
