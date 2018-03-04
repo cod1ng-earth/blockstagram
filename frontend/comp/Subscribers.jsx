@@ -6,59 +6,84 @@ export default class Subscriber  extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.state = { subscribers: [] }
     }
 
     componentWillMount() {
-        blockstack.getFile('subscriber.json')
+        blockstack.getFile('subscribers.json')
             .then((data) => {
                 this.setState({subscribers: Array.from(JSON.parse(data))})
+                this.readSubscribersImages()
             }).catch(err => {
-                console.warn("ohoh");
+                console.warn(err);
             })
     }
 
+    removeAllSubscribers() {
+        blockstack.putFile('subscribers.json', '[]').then(() => {
+            this.setState({subscribers: []});
+        });
+    }
+
+    readSubscribersImages () {
+        this.state.subscribers.forEach(subsc => {
+            blockstack.getFile('index.json', {
+                username: subsc.userId,  
+                app: 'blockstagram.me' //see here for correct parameter names: https://github.com/blockstack/blockstack.js/blob/master/src/storage/index.js#L59
+            }).then(indexData => {
+                console.log(indexData);
+            }).catch(err => {
+                console.warn(err);
+            });
+        });
+    }
     addSubscriber (evt) {
         evt.preventDefault();
+        const newSubscriber = this.input.value
 
-        let newSubscriber = this.input.value
-
-        const options = { username: newSubscriber }
-        blockstack.getFile('key.json', options)
-            .then((data) => {
-                this.persistSubscriber(newSubscriber)
+        blockstack.getFile('key.json', { 
+            username: newSubscriber,  
+            app: 'blockstagram.me'
+        }).then(key => {
+            let subs = this.state.subscribers;
+            subs.push({
+                userId: newSubscriber,
+                publicKey: key
+            });
+            this.setState({
+                subscribers: subs
             })
-            .catch((e) => {
-                console.log(newSubscriber + ' is no blockstagram user yet');
-            })
+            this.persistSubscribers();
+        })
+        .catch(e => {
+            console.log(newSubscriber + ' is no blockstagram user yet');
+        })
     }
 
-    persistSubscriber(userName) {
-        let subscribers = this.state.subscribers
-        subscribers.push(userName)
-
-        blockstack.putFile('subscriber.json', JSON.stringify(subscribers))
-            .then(() => {
-                this.setState({subscribers})
-            })
+    persistSubscribers() {
+        blockstack.putFile('subscribers.json', JSON.stringify(this.state.subscribers))
+            .then(() => 'submitted subscribers.json')
+            .catch(e => console.dir(e))
     }
 
     render() {
-        var userNames = this.state.subscribers.map(function (userName) {
+        var userNames = this.state.subscribers.map((userInfo, index) => {
             return (
-                <li key={userName}>{userName}</li>
+                <li key={index}>{userInfo.userId}</li>
             );
         });
 
         return (
-            <div>
+            <form onSubmit={this.addSubscriber.bind(this)}>
+                
+                <input name="username" ref={element => this.input = element}/>
+                <button type="submit">Add</button>
+            
                 <ul>
                     {userNames}
                 </ul>
-                <input name="username" ref={element => this.input = element}/>
-                <button onClick={this.addSubscriber.bind(this)}>Add</button>
-            </div>
+                <a className="button is-danger" onClick={this.removeAllSubscribers.bind(this)}>x</a>
+            </form>
         );
     }
 }

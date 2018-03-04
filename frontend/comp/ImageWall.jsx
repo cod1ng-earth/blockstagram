@@ -5,26 +5,26 @@ class OneImage extends React.Component {
     
     render() {
         return (
-        <div class="card">
-            <div class="card-header">
-                <div class="card-header-title">
+        <div className="card">
+            <div className="card-header">
+                <div className="card-header-title">
                     some title
                 </div>
             </div>
 
-            <div class="card-image">
-              <figure class="image">
+            <div className="card-image">
+              <figure className="image">
                 <img src={this.props.img} alt="" ref={(img) => { this.foo = img; }}/>
               </figure>
             </div>
             
-            <div class="card-content">
-            <div class="content">
+            <div className="card-content">
+            <div className="content">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                 Phasellus nec iaculis mauris. <a>@bulmaio</a>.
                 <a href="#">#css</a> <a href="#">#responsive</a>
                 <br />
-                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                <time>11:09 PM - 1 Jan 2016</time>
             </div>
             </div>
           
