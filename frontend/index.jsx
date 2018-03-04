@@ -153,9 +153,33 @@ class App extends React.Component {
         <div className="columns blockstagram-columns">
 
 		  <div className="column is-two-thirds">
-            <ImageWall images={this.state.images} />
-            <ImageWall images={this.state.imageFeed.map(imageData => imageData.image)} />
-          </div>
+
+		  
+<div class="tabs is-boxed">
+  <ul>
+    <li class="is-active">
+      <a>
+        <span class="icon is-small"><i class="fas fa-image"></i></span>
+        <span>My Pictures</span>
+      </a>
+    </li>
+	<li>
+      <a>
+        <span class="icon is-small"><i class="fas fa-image"></i></span>
+        <span>Friends Pictures</span>
+      </a>
+    </li>
+	</ul>
+</div>
+
+<div class="container">
+        <ImageWall images={this.state.images} />
+    </div>
+	<div class="container">
+		<ImageWall images={this.state.imageFeed.map(imageData => imageData.image)} />
+	</div>		
+
+	</div>
 
           <div className="column">
 				<div className="container">
