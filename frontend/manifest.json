@@ -1,6 +1,6 @@
 {
     "name": "Blockstagram",
-    "start_url": "127.0.0.1:8888",
+    "start_url": "https://awesome-northcutt-afeef6.netlify.com/",
     "description": "A simple demo of Blockstack Auth",
     "icons": [{
       "src": "https://helloblockstack.com/icon-192x192.png",
