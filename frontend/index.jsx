@@ -49,6 +49,7 @@ class App extends React.Component {
     } else if (blockstack.isUserSignedIn()) {
       console.log('Signed In')
       this.setupUser().then(() => {
+        this.setupSubscriber()
         this.loadAESKey()
       })
     }
