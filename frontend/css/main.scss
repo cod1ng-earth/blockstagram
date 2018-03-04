@@ -1,26 +1,18 @@
-@import "~bulma/bulma.sass";
+@import "~bulma/sass/utilities/initial-variables";
+@import "~bulma/sass/utilities/functions";
+
+$body-background-color: #fafafa;
+$navbar-height: 5em;
+
+@import "~bulma/bulma";
 
 $primary-color: #1EB31E;
+$body-background-color: red;
 
-.navbar .bsgicon {
-	height: 28px;
-	width: 28px;
-	margin-right: 1vw;
-  float: left;
-  svg path {
-    fill: #1EB31E;
-  }
+nav.navbar {
+  border-bottom: 1px solid $grey-lighter;
 }
-
-/*.navbar .button {
-	margin: 1vw;
-	background: $primary-color;
-}
-*/
 
 .imagewall  {
-    img {
-      max-height: 60vh;
-      margin-right: 5vw;
-    }  
+
 }

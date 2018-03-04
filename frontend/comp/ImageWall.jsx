@@ -19,7 +19,7 @@ class OneImage extends React.Component {
 export class ImageWall extends React.Component {
 
     render() {
-        return (<div className="columns imagewall">
+        return (<div className="imagewall">
             { this.props.images.map((image, index) => {
                 return (<OneImage  key={index} img={image} />);
             })} 
