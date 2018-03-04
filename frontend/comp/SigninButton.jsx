@@ -4,12 +4,13 @@ import * as blockstack from 'blockstack'
 export default class SigninButton  extends React.Component {
 
   onClick (evt) {
-      evt.preventDefault();
-      if (this.props.userData) {
-        blockstack.signUserOut('/');  
-      } else {
-        blockstack.redirectToSignIn();  
-      }
+    evt.preventDefault();
+    if (this.props.userData) {
+      blockstack.signUserOut('/');
+    } else {
+      const origin = window.location.origin
+      blockstack.redirectToSignIn(origin, origin + '/manifest.json', ['store_write', 'publish_data']);
+    }
   }
 
   render() {
