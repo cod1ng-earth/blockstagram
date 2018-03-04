@@ -23,8 +23,20 @@ export default class Subscriber  extends React.Component {
         evt.preventDefault();
 
         let newSubscriber = this.input.value
+
+        const options = { username: newSubscriber }
+        blockstack.getFile('key.json', options)
+            .then((data) => {
+                this.persistSubscriber(newSubscriber)
+            })
+            .catch((e) => {
+                console.log(newSubscriber + ' is no blockstagram user yet');
+            })
+    }
+
+    persistSubscriber(userName) {
         let subscribers = this.state.subscribers
-        subscribers.push(newSubscriber)
+        subscribers.push(userName)
 
         blockstack.putFile('subscriber.json', JSON.stringify(subscribers))
             .then(() => {
