@@ -42,6 +42,7 @@ class App extends React.Component {
         console.dir(data)
         this.setupUser()
         this.setupKey()
+        this.setupSubscriber()
       })
     } else if (blockstack.isUserSignedIn()) {
       console.log('Signed In')
@@ -150,7 +151,7 @@ class App extends React.Component {
   }
 
 
-    componentWillMount() {
+    setupSubscriber() {
       if(this.state.loggedIn) {
           blockstack.getFile('subscribers.json')
               .then((data) => {
