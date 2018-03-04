@@ -32,7 +32,8 @@ class App extends React.Component {
       // { username, path, image }
       imageFeed: [],
       subscribers: [],
-      aesKey: null
+      aesKey: null,
+      tab: 'my'
     }
   }
 
@@ -145,6 +146,16 @@ class App extends React.Component {
     this.setState({imageFeed: newImageFeed});
   }
 
+<<<<<<< HEAD
+  toggleTab() {
+    if (this.state.tab === 'my') {
+      this.setState({ tab: 'friends' })
+    }
+    else {
+      this.setState({ tab: 'my' })
+    }
+  }
+=======
 
     setupSubscriber() {
       if(this.state.loggedIn) {
@@ -206,12 +217,16 @@ class App extends React.Component {
             .then(() => 'submitted subscribers.json')
             .catch(e => console.dir(e))
     }
+>>>>>>> origin
 
   render () {
     return <div>
 
     <NavBar userData={this.state.userData}/>
 
+<<<<<<< HEAD
+<section className="section">
+=======
     <section className="section">
       <div className="container">
         <Uploader updateIndexAndImages={this.updateIndexAndImages.bind(this)}/>
@@ -230,16 +245,62 @@ class App extends React.Component {
     </section>
 
     <section className="section">
+>>>>>>> origin
       <div className="container is-desktop">
-        <div className="columns">
-          <div className="column is-two-thirds">
+        <div className="columns blockstagram-columns">
+
+		  <div className="column is-two-thirds">
+
+		  
+<div className="tabs is-boxed">
+  <ul>
+    <li className={ this.state.tab === 'my' ? "is-active" : ''}>
+      <a onClick={this.toggleTab.bind(this)}>
+        <span className="icon is-small"><i className="fas fa-image"></i></span>
+        <span>My Pictures</span>
+      </a>
+    </li>
+	<li className={ this.state.tab === 'friends' ? "is-active" : ''}>
+      <a onClick={this.toggleTab.bind(this)}>
+        <span className="icon is-small"><i className="fas fa-image"></i></span>
+        <span>Friends Pictures</span>
+      </a>
+    </li>
+	</ul>
+</div>
+        { this.state.tab === 'my' ?
+          <div className="container">
             <ImageWall images={this.state.images} />
+          </div> :
+          <div className="container">
             <ImageWall images={this.state.imageFeed.map(imageData => imageData.image)} />
           </div>
+        }
+	</div>
+
           <div className="column">
+<<<<<<< HEAD
+				<div className="container">
+					<Uploader updateIndexAndImages={this.updateIndexAndImages.bind(this)}/>
+				</div>
+				<div className="container">				
+					<h3>Start again with a fresh wall</h3>
+					<ResetButton />
+				</div>
+		      
+			  <div className="container">
+          { this.state.loggedIn ? <Subscribers updateFeed={this.updateFeed.bind(this)}/> : '' }
+			  </div>
+	  
+	              Made with 💙 and 🍕 in Berlin. 
+=======
             Made with 💙 and 🍕 in Berlin.
+>>>>>>> origin
             Thanks to <a href="https://blockstack.org/">blockstack</a>!
           </div>
+		  
+
+		  
         </div>
       </div>
     </section>

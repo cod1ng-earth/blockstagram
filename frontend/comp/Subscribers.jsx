@@ -17,14 +17,17 @@ export default class Subscriber  extends React.Component {
 
         return (
             <form onSubmit={this.addSubscriber.bind(this)}>
-                
-                <input name="username" ref={element => this.input = element}/>
+                <h3>Add friend</h3>
+                <input name="username" ref={element => this.input = element} defaultValue="Enter Blockstack.id" />
                 <button type="submit">Add</button>
             
                 <ul>
                     {userNames}
                 </ul>
+				<div class="container">
+				<h3>Remove all friends</h3> 
                 <a className="button is-danger" onClick={this.props.removeAllSubscribers.bind(this)}>x</a>
+				</div>
             </form>
         );
     }

@@ -43,7 +43,7 @@ export default class Uploader  extends React.Component {
     return (
         <div>
             <input type="file" accept=".png, .jpg, .jpeg" ref={element => this.input = element}/>
-            <button onClick={this.upload.bind(this)}>Upload</button>
+            <button onClick={this.upload.bind(this)} className="button is-primary" >Upload</button>
         </div>
     );
   }
