@@ -118,8 +118,16 @@ class App extends React.Component {
     </section>
     
     <section className="section">
-      <div className="container">
-        <ImageWall images={this.state.images} />        
+      <div className="container is-desktop">
+        <div className="columns">
+          <div className="column is-two-thirds">
+            <ImageWall images={this.state.images} />        
+          </div>
+          <div className="column">
+            Made with 💙 and 🍕 in Berlin. 
+            Thanks to <a href="https://blockstack.org/">blockstack</a>!
+          </div>
+        </div>
       </div>
     </section>
 

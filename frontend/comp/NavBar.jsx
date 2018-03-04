@@ -6,10 +6,11 @@ export default class NavBar extends React.Component {
 
     render() {
         return (
-        <nav className="navbar is-warning" role="navigation" aria-label="main navigation">
+        <nav className="navbar is-white is-fixed-top" role="navigation" aria-label="main navigation">
             <div className="navbar-brand is-pulled-left">
                 <a className="navbar-item">
-                <img src="img/blockstagram.png" />
+                    <img src="img/blockstagram.png" className="is-hidden-mobile"/>
+                    <img src="img/blockstagram_mobile.png" className="is-hidden-tablet"/>
                 </a>
             </div>
         
