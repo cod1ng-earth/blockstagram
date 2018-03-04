@@ -30,9 +30,9 @@ export default class Subscriber  extends React.Component {
             username: username
         }).then(indexData => {
             let data = JSON.parse(indexData);
-            data.imagePaths.map((path) => { 
-              blockstack.getFile(path, {username}).then((imageData) => {
-                this.props.updateFeed(imageData);
+            data.images.map((indexEntry) => { 
+              blockstack.getFile(indexEntry.path, {username}).then((imageData) => {
+                this.props.updateFeed({path: indexEntry.path, username: username, image: imageData, created: indexEntry.created});
               })
             });
         }).catch(err => {
