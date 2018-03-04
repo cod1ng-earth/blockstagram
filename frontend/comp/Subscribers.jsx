@@ -1,6 +1,5 @@
 import React from 'react';
 import * as blockstack from 'blockstack'
-import md5 from 'md5'
 
 export default class Subscriber  extends React.Component {
 
@@ -12,7 +11,7 @@ export default class Subscriber  extends React.Component {
     componentWillMount() {
         blockstack.getFile('subscribers.json')
             .then((data) => {
-                this.setState({subscribers: Array.from(JSON.parse(data))})
+                this.setState({subscribers: JSON.parse(data || [])})
                 this.readSubscribersImages()
             }).catch(err => {
                 console.warn(err);
@@ -26,33 +25,28 @@ export default class Subscriber  extends React.Component {
     }
 
     readSubscribersImages () {
-        this.state.subscribers.forEach(subsc => {
+        this.state.subscribers.forEach(username => {
             blockstack.getFile('index.json', {
-                username: subsc.userId,  
-                app: 'blockstagram.me' //see here for correct parameter names: https://github.com/blockstack/blockstack.js/blob/master/src/storage/index.js#L59
+                username: username
             }).then(indexData => {
                 console.log(indexData);
+
             }).catch(err => {
                 console.warn(err);
             });
         });
     }
+
     addSubscriber (evt) {
         evt.preventDefault();
         const newSubscriber = this.input.value
 
         blockstack.getFile('key.json', { 
-            username: newSubscriber,  
-            app: 'blockstagram.me'
-        }).then(key => {
-            let subs = this.state.subscribers;
-            subs.push({
-                userId: newSubscriber,
-                publicKey: key
-            });
-            this.setState({
-                subscribers: subs
-            })
+            username: newSubscriber
+        }).then(keyData => {
+            let subscribers = this.state.subscribers;
+            subscribers.push(newSubscriber);
+            this.setState({subscribers})
             this.persistSubscribers();
         })
         .catch(e => {
@@ -67,9 +61,9 @@ export default class Subscriber  extends React.Component {
     }
 
     render() {
-        var userNames = this.state.subscribers.map((userInfo, index) => {
+        var userNames = this.state.subscribers.map((username) => {
             return (
-                <li key={index}>{userInfo.userId}</li>
+                <li key={username}>{username}</li>
             );
         });
 

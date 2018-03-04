@@ -20,7 +20,9 @@ class App extends React.Component {
       index: {
         imagePaths: []
       },
-      images: []
+      images: [],
+      image: [],
+      imageFeed: []
     }
   }
 
@@ -99,6 +101,10 @@ class App extends React.Component {
       })
   }
 
+  updateFeed(images) {
+    this.state.imageFeed.push(images)
+  }
+
   render () {
     return <div>
     
@@ -122,6 +128,7 @@ class App extends React.Component {
         <div className="columns">
           <div className="column is-two-thirds">
             <ImageWall images={this.state.images} />        
+            <ImageWall images={this.state.imageFeed} />
           </div>
           <div className="column">
             Made with 💙 and 🍕 in Berlin. 
