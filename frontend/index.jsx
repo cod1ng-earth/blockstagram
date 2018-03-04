@@ -10,6 +10,7 @@ import {ImageWall} from './comp/ImageWall.jsx';
 const blockstack = require( 'blockstack' );
 const { getPublicKeyFromPrivate } = require('blockstack');
 
+window.blockstack = blockstack;
 class App extends React.Component {
 
   constructor() {
@@ -22,7 +23,8 @@ class App extends React.Component {
       },
       images: [],
       image: [],
-      imageFeed: []
+      imageFeed: [],
+      subscribers: [],
     }
   }
 
@@ -32,7 +34,6 @@ class App extends React.Component {
         console.dir(data)
         this.setupUser()
         this.setupKey()
-        
       })
     } else if (blockstack.isUserSignedIn()) {
       console.log('Signed In')
@@ -100,7 +101,10 @@ class App extends React.Component {
   }
 
   updateFeed(images) {
-    this.state.imageFeed.push(images)
+    console.log('in update feed: ', images);
+    const newImageFeed = this.state.imageFeed;
+    newImageFeed.push(images);
+    this.setState({imageFeed: newImageFeed});
   }
 
   render () {
@@ -117,7 +121,7 @@ class App extends React.Component {
 
     <section className="section">
       <div className="container">
-          { this.state.loggedIn ? <Subscribers/> : '' }
+          { this.state.loggedIn ? <Subscribers updateFeed={this.updateFeed.bind(this)}/> : '' }
       </div>
     </section>
     
@@ -125,7 +129,7 @@ class App extends React.Component {
       <div className="container is-desktop">
         <div className="columns">
           <div className="column is-two-thirds">
-            <ImageWall images={this.state.images} />     
+            <ImageWall images={this.state.images} />
             <ImageWall images={this.state.imageFeed} />
           </div>
           <div className="column">

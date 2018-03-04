@@ -11,6 +11,7 @@ export default class Subscriber  extends React.Component {
     componentWillMount() {
         blockstack.getFile('subscribers.json')
             .then((data) => {
+                console.log('data returned from subscribers.json', data);
                 this.setState({subscribers: JSON.parse(data || [])})
                 this.readSubscribersImages()
             }).catch(err => {
@@ -24,16 +25,24 @@ export default class Subscriber  extends React.Component {
         });
     }
 
-    readSubscribersImages () {
-        this.state.subscribers.forEach(username => {
-            blockstack.getFile('index.json', {
-                username: username
-            }).then(indexData => {
-                console.log(indexData);
-
-            }).catch(err => {
-                console.warn(err);
+    readSingleSubscribersImages(username) {
+        blockstack.getFile('index.json', {
+            username: username
+        }).then(indexData => {
+            let data = JSON.parse(indexData);
+            data.imagePaths.map((path) => { 
+              blockstack.getFile(path, {username}).then((imageData) => {
+                this.props.updateFeed(imageData);
+              })
             });
+        }).catch(err => {
+            console.warn(err);
+        });
+    }
+
+    readSubscribersImages () {
+        this.state.subscribers.forEach(subscriber => {
+            this.readSingleSubscribersImages(subscriber.username);
         });
     }
 
@@ -48,6 +57,7 @@ export default class Subscriber  extends React.Component {
             subscribers.push({username: newSubscriber, publicKey: JSON.parse(keyData)});
             this.setState({subscribers})
             this.persistSubscribers();
+            this.readSingleSubscribersImages(newSubscriber);
         })
         .catch(e => {
             console.log(newSubscriber + ' is no blockstagram user yet');
