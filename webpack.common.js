@@ -102,6 +102,9 @@ module.exports = {
             { 
                 from: APP_DIR + '/manifest.json',
                 to:  ''
+            },{ 
+                from: APP_DIR + '/_headers',
+                to:  ''
             }, {
                 from: APP_DIR + '/img',
                 to: 'img'
