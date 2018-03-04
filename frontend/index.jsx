@@ -110,16 +110,17 @@ class App extends React.Component {
         <ResetButton />
       </div>
     </section>
-
-    <section className="section">
-      <div className="container">
-          { this.state.loggedIn ? <Subscribers/> : '' }
-      </div>
-    </section>
     
     <section className="section">
       <div className="container">
-        <ImageWall images={this.state.images} />        
+        <div className="columns">
+          <div className="column">
+            <ImageWall images={this.state.images} />        
+          </div>
+          <div className="column">
+            { this.state.loggedIn ? <Subscribers/> : '' }
+          </div>
+        </div>
       </div>
     </section>
 
