@@ -37,7 +37,6 @@ class App extends React.Component {
 
       isLoading: false
     }
-    this.readSubscribersImages = this.readSubscribersImages.bind(this);
   }
 
   componentDidMount() {
@@ -178,7 +177,7 @@ class App extends React.Component {
               }).catch(err => {
               console.warn(err);
           }).then(() => {
-              window.setInterval(this.readSubscribersImages, 5000);
+              window.setInterval(this.readSubscribersImages.bind(this), 15000);
           })
       }
     }
