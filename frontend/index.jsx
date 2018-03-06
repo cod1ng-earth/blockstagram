@@ -35,6 +35,7 @@ class App extends React.Component {
       aesKey: null,
       tab: 'my'
     }
+    this.readSubscribersImages = this.readSubscribersImages.bind(this);
   }
 
   componentDidMount() {
@@ -147,6 +148,15 @@ class App extends React.Component {
     this.setState({imageFeed: newImageFeed});
   }
 
+  subscriberImageLoaded(indexEntry) {
+    if (!this.state.imageFeed.length) {
+      return false;
+    }
+    return this.state.imageFeed.some((el) =>
+      el.path == indexEntry.path && el.username == indexEntry.username
+    )
+  }
+
   toggleTab() {
     if (this.state.tab === 'my') {
       this.setState({ tab: 'friends' })
@@ -161,10 +171,12 @@ class App extends React.Component {
           blockstack.getFile('subscribers.json')
               .then((data) => {
                   console.log('data returned from subscribers.json', data);
-                  this.setState({subscribers: JSON.parse(data || [])})
-                  this.readSubscribersImages()
+                  this.setState({subscribers: JSON.parse(data || [])});
+                  return this.readSubscribersImages();
               }).catch(err => {
               console.warn(err);
+          }).then(() => {
+              window.setInterval(this.readSubscribersImages, 5000);
           })
       }
     }
@@ -176,24 +188,29 @@ class App extends React.Component {
     }
 
     readSingleSubscribersImages(username) {
+
         blockstack.getFile('index.json', {
             username: username
         }).then(indexData => {
             let data = JSON.parse(indexData);
-            data.images.map((indexEntry) => {
-                blockstack.getFile(indexEntry.path, {username}).then((imageData) => {
-                    this.updateFeed({path: indexEntry.path, username: username, image: imageData, created: indexEntry.created});
-                })
-            });
+            console.log('Subscribers indexData is', indexData);
+            data.images.forEach((indexEntry) => {
+                if (!this.subscriberImageLoaded({...indexEntry, username})) {
+                  blockstack.getFile(indexEntry.path, {username}).then((imageData) => {
+                      this.updateFeed({path: indexEntry.path, username: username, image: imageData, created: indexEntry.created});
+                  })
+                }
+            })
         }).catch(err => {
             console.warn(err);
         });
     }
 
     readSubscribersImages () {
-        this.state.subscribers.forEach(subscriber => {
-            this.readSingleSubscribersImages(subscriber.username);
-        });
+      this.state.subscribers.forEach(subscriber => {
+          console.log('A subscriber is', subscriber);
+          this.readSingleSubscribersImages(subscriber.username);
+      });
     }
 
     addSubscriber (newSubscriber) {
