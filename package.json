@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/coding-berlin/blockstagram#readme",
   "dependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-react": "^6.24.1",
     "blockstack": "^0.15.1",
     "bulma": "^0.6.2",
