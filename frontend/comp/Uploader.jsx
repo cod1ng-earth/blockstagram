@@ -18,7 +18,7 @@ export default class Uploader extends React.Component {
     let file = input.files[0]
 
     this.setState({isButtonDisabled: true})
-
+    this.props.updateIsLoading(true)
     this.readFile(file)
     
     console.dir(input)
@@ -41,6 +41,7 @@ export default class Uploader extends React.Component {
     blockstack.putFile(path, result)
       .then(fileUrl => {
         console.log(fileUrl);
+        this.props.updateIsLoading(false)
         this.setState({isButtonDisabled: false})
         this.props.updateIndexAndImages(path, result)
       })
