@@ -24,6 +24,10 @@ nav.navbar {
   width: auto;
 }
 
+button:disabled {
+  opacity: 0.5;
+ }
+
 @media(max-width: 767px) {
   .blockstagram-columns {
     flex-direction: column-reverse;

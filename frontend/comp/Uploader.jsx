@@ -2,13 +2,22 @@ import React from 'react';
 import * as blockstack from 'blockstack'
 import md5 from 'md5'
 
-export default class Uploader  extends React.Component {
+export default class Uploader extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      isButtonDisabled: false
+    }
+  }
 
   upload (evt) {
     evt.preventDefault();
 
     let input = this.input
     let file = input.files[0]
+
+    this.setState({isButtonDisabled: true})
 
     this.readFile(file)
     
@@ -32,6 +41,7 @@ export default class Uploader  extends React.Component {
     blockstack.putFile(path, result)
       .then(fileUrl => {
         console.log(fileUrl);
+        this.setState({isButtonDisabled: false})
         this.props.updateIndexAndImages(path, result)
       })
       .catch((e) => {
@@ -43,7 +53,7 @@ export default class Uploader  extends React.Component {
     return (
         <div>
             <input type="file" accept=".png, .jpg, .jpeg" ref={element => this.input = element}/>
-            <button onClick={this.upload.bind(this)} className="button is-primary" >Upload</button>
+            <button onClick={this.upload.bind(this)} className="button is-primary" disabled={this.state.isButtonDisabled}>Upload</button>
         </div>
     );
   }
