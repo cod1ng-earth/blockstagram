@@ -6,8 +6,10 @@ export default class ResetButton  extends React.Component {
   reset (evt) {
       evt.preventDefault();
       // Resets index file. TODO: Images are still stored!
-      blockstack.putFile('index.json')
-      window.location.reload()
+      blockstack.putFile('index.json').then( () => {
+        window.location.reload()
+      })
+      
   }
   render() {
     return (
