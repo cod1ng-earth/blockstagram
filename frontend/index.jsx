@@ -37,6 +37,7 @@ class App extends React.Component {
 
       isLoading: false
     }
+    this.readSubscribersImages = this.readSubscribersImages.bind(this);
   }
 
   componentDidMount() {
@@ -177,7 +178,7 @@ class App extends React.Component {
               }).catch(err => {
               console.warn(err);
           }).then(() => {
-              window.setInterval(this.readSubscribersImages.bind(this), 15000);
+              window.setInterval(this.readSubscribersImages, 5000);
           })
       }
     }
@@ -285,7 +286,7 @@ class App extends React.Component {
 
           <div className="column">
 				<div className="container">
-					<Uploader updateIndexAndImages={this.updateIndexAndImages.bind(this)} updateIsLoading={this.updateIsLoading.bind(this)}/>
+					<Uploader updateIndexAndImages={this.updateIndexAndImages.bind(this)} updateIsLoading={this.updateIsLoading.bind(this)} isLoading={this.state.isLoading}/>
 				</div>
 				<div className="container">				
 					<h3>Start again with a fresh wall</h3>
