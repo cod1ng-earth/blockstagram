@@ -145,7 +145,7 @@ class App extends React.Component {
     console.log('in update feed: ', images);
     const newImageFeed = this.state.imageFeed;
     newImageFeed.push(images);
-    newImageFeed.sort((imageA, imageB) => { return imageA.created > imageB.created});
+    newImageFeed.sort((imageA, imageB) => { return imageA.created < imageB.created});
     this.setState({imageFeed: newImageFeed});
   }
 
