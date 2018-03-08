@@ -37,7 +37,6 @@ class App extends React.Component {
 
       isLoading: false
     }
-    this.readSubscribersImages = this.readSubscribersImages.bind(this);
   }
 
   componentDidMount() {
@@ -146,7 +145,7 @@ class App extends React.Component {
     console.log('in update feed: ', images);
     const newImageFeed = this.state.imageFeed;
     newImageFeed.push(images);
-    newImageFeed.sort((imageA, imageB) => { return imageA.created < imageB.created});
+    newImageFeed.sort((imageA, imageB) => { return imageA.created > imageB.created});
     this.setState({imageFeed: newImageFeed});
   }
 
@@ -178,7 +177,7 @@ class App extends React.Component {
               }).catch(err => {
               console.warn(err);
           }).then(() => {
-              window.setInterval(this.readSubscribersImages, 5000);
+            window.setInterval(this.readSubscribersImages.bind(this), 15000);
           })
       }
     }
