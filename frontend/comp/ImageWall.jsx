@@ -1,8 +1,21 @@
 import React from 'react';
+import classnames from 'classnames';
+const blockstack = require( 'blockstack' );
 
 
 class OneImage extends React.Component {
-    
+
+    constructor() {
+       super();
+       this.state = { imageData: null };
+    }
+
+    componentWillMount() {
+      blockstack.getFile(this.props.path, { username: this.props.username }).then((imageData) => {
+          this.setState({ imageData });
+      })
+    }
+
     render() {
         return (
         <div className="card">
@@ -13,8 +26,8 @@ class OneImage extends React.Component {
             </div>
 
             <div className="card-image">
-              <figure className="image">
-                <img src={this.props.img} alt="" ref={(img) => { this.foo = img; }}/>
+              <figure className={ classnames('image', { loading: !this.state.imageData }) }>
+                <img src={this.state.imageData || 'img/loading.gif'} alt="" ref={(img) => { this.foo = img; }}/>
               </figure>
             </div>
             
@@ -27,15 +40,13 @@ class OneImage extends React.Component {
                 <time>11:09 PM - 1 Jan 2016</time>
             </div>
             </div>
-          
-
         </div>
         );
         
     }
 
     componentDidMount() {
-        this.foo.onload = () => {   
+        this.foo.onload = () => {
             console.log( this.foo.width + ", " + this.foo.height );
         };
     }
@@ -44,9 +55,10 @@ class OneImage extends React.Component {
 export class ImageWall extends React.Component {
 
     render() {
-        return (<div className="imagewall">
-            { this.props.images.map((image, index) => {
-                return (<OneImage  key={index} img={image} />);
+        const style = this.props.show ? {} : { display: 'None'};
+        return (<div className="imagewall" style={style}>
+            { this.props.imageInfos.map((imageInfo, index) => {
+                return (<OneImage  key={`${imageInfo.path}-${imageInfo.username}`} path={imageInfo.path} username={imageInfo.username} />);
             })} 
         </div>)
     }

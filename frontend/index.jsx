@@ -73,18 +73,9 @@ class App extends React.Component {
         this.setState({index: indexJson});
       }
     })
-      .then(() => {
-        let promises = this.state.index.images.map((image) => {
-          return this.fetchFile(image.path)
-        })
-        return Promise.all(promises)
-      })
-      .then((images) => {
-        this.setState({ images: images })
-      })
-      .catch((e) => {
-        console.error(e)
-      })
+    .catch((e) => {
+      console.error(e)
+    })
   }
 
   loadAESKey() {
@@ -195,9 +186,7 @@ class App extends React.Component {
             console.log('Subscribers indexData is', indexData);
             data.images.forEach((indexEntry) => {
                 if (!this.subscriberImageLoaded({...indexEntry, username})) {
-                  blockstack.getFile(indexEntry.path, {username}).then((imageData) => {
-                      this.updateFeed({path: indexEntry.path, username: username, image: imageData, created: indexEntry.created});
-                  })
+                  this.updateFeed({path: indexEntry.path, username: username, created: indexEntry.created});
                 }
             })
         }).catch(err => {
@@ -245,7 +234,7 @@ class App extends React.Component {
 
 		  <div className="column is-two-thirds">
 
-		  
+
       <div className="tabs is-boxed">
         <ul>
           <li className={ this.state.tab === 'my' ? "is-active" : ''}>
@@ -262,25 +251,21 @@ class App extends React.Component {
           </li>
         </ul>
       </div>
-        { this.state.tab === 'my' ?
           <div className="container">
-            <ImageWall images={this.state.images} />
-          </div> :
-          <div className="container">
-            <ImageWall images={this.state.imageFeed.map(imageData => imageData.image)} />
+            <ImageWall imageInfos={this.state.index.images} show={this.state.tab=='my'}/>
+            <ImageWall imageInfos={this.state.imageFeed} show={this.state.tab=='friends'}/>
           </div>
-        }
 	</div>
 
           <div className="column">
 				<div className="container">
 					<Uploader updateIndexAndImages={this.updateIndexAndImages.bind(this)}/>
 				</div>
-				<div className="container">				
+				<div className="container">
 					<h3>Start again with a fresh wall</h3>
 					<ResetButton />
 				</div>
-		      
+
 			  <div className="container">
           { this.state.loggedIn ? <Subscribers
             addSubscriber={this.addSubscriber.bind(this)}
@@ -288,13 +273,11 @@ class App extends React.Component {
             subscribers={this.state.subscribers}
             updateFeed={this.updateFeed.bind(this)}/> : '' }
 			  </div>
-	  
+
 	              Made with 💙 and 🍕 in Berlin. 
             Thanks to <a href="https://blockstack.org/">blockstack</a>!
           </div>
-		  
 
-		  
         </div>
       </div>
     </section>
