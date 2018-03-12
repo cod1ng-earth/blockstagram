@@ -33,7 +33,9 @@ class App extends React.Component {
       imageFeed: [],
       subscribers: [],
       aesKey: null,
-      tab: 'my'
+      tab: 'my',
+
+      isLoading: false
     }
   }
 
@@ -175,7 +177,7 @@ class App extends React.Component {
               }).catch(err => {
               console.warn(err);
           }).then(() => {
-              window.setInterval(this.readSubscribersImages.bind(this), 15000);
+            window.setInterval(this.readSubscribersImages.bind(this), 15000);
           })
       }
     }
@@ -233,6 +235,12 @@ class App extends React.Component {
             .catch(e => console.dir(e))
     }
 
+    updateIsLoading(isLoading) {
+      this.setState({
+        isLoading: isLoading
+      });
+    }
+
   render () {
     return <div>
 
@@ -270,11 +278,14 @@ class App extends React.Component {
             <ImageWall images={this.state.imageFeed.map(imageData => imageData.image)} />
           </div>
         }
+        { this.state.isLoading ?
+          <img src="img/loading.gif"/>: ''
+        }
 	</div>
 
           <div className="column">
 				<div className="container">
-					<Uploader updateIndexAndImages={this.updateIndexAndImages.bind(this)}/>
+					<Uploader updateIndexAndImages={this.updateIndexAndImages.bind(this)} updateIsLoading={this.updateIsLoading.bind(this)} isLoading={this.state.isLoading}/>
 				</div>
 				<div className="container">				
 					<h3>Start again with a fresh wall</h3>
