@@ -1,0 +1,10 @@
+{
+    "name": "Blockstagram",
+    "start_url": "https://awesome-northcutt-afeef6.netlify.com/",
+    "description": "decentralized photo sharing application on blockstack",
+    "icons": [{
+      "src": "https://awesome-northcutt-afeef6.netlify.com/img/blockstagram-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }]
+  }

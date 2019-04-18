@@ -1,0 +1,36 @@
+@import "~bulma/sass/utilities/initial-variables";
+@import "~bulma/sass/utilities/functions";
+
+$body-background-color: #fafafa;
+$navbar-height: 5em;
+
+@import "~bulma/bulma";
+
+$primary-color: #1EB31E;
+$body-background-color: red;
+
+nav.navbar {
+  border-bottom: 1px solid $grey-lighter;
+}
+
+.imagewall  {
+  .card {
+    margin-bottom: $size-3;
+  }
+}
+
+.container {
+	margin-bottom: 1rem;
+  width: auto;
+}
+
+button:disabled {
+  opacity: 0.5;
+ }
+
+@media(max-width: 767px) {
+  .blockstagram-columns {
+    flex-direction: column-reverse;
+    display: flex;
+  }
+}
